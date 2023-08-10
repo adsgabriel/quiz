@@ -12,12 +12,13 @@
     flex: 1;
 }
 
-.frente, .verso {
+.frente,
+.verso {
     position: absolute;
     display: flex;
     height: 100%;
     width: 100%;
-    
+
 }
 
 .frente {
@@ -26,6 +27,28 @@
     align-items: center;
     color: #000;
     background-color: #fff;
+}
+
+.verso>div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    border-radius: 12px;
+}
+
+.certa {
+    background-color: #2baa6d;
+}
+
+.certa .valor,
+.errada .valor {
+    font-size: 1.5rem;
+}
+
+.errada {
+    background-color: #e44a4c;
 }
 
 .letra {
