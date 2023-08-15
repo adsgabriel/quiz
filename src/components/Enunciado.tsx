@@ -1,6 +1,6 @@
 import styles from '../styles/Enunciado.module.css'
 
-interface EnunciadoProps{
+interface EnunciadoProps {
     texto: string
 }
 
