@@ -1,20 +1,17 @@
 import Questionario from '@/components/Questionario'
 import QuestaoModel from '@/model/questao'
-import RespostaModel from '@/model/resposta'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
-const questaoMock = new QuestaoModel(1, 'Melhor cor?', [
-  RespostaModel.errada('Verde'),
-  RespostaModel.errada('Vermelha'),
-  RespostaModel.errada('Azul'),
-  RespostaModel.certa('Preta'),
-])
 
 const BASE_URL = 'http://localhost:3000/api'
 
 export default function Home() {
+
+  const router = useRouter()
+
   const [idsDasQuestoes, setIdsDasQuestoes] = useState<number[]>([])
-  const [questao, setQuestao] = useState<QuestaoModel>(questaoMock)
+  const [questao, setQuestao] = useState<QuestaoModel>()
   const [respostasCertas, setrespostasCertas] = useState<number>(0)
   
   async function carregarQuestoesIds() {
@@ -44,16 +41,37 @@ export default function Home() {
     setrespostasCertas(respostasCertas + (acertou ? 1 : 0))
   }
 
-  function irParaProximoPasso() {
-    
+  function idProximaPergunta() {
+      const proximoIndice = idsDasQuestoes.indexOf(questao.id) + 1
+      return idsDasQuestoes[proximoIndice]
   }
 
-  return (
-      <Questionario 
-        questao={questao}
-        ultima={false}
-        questaoRespondida={questaoRespondida}
-        irParaProximoPasso={irParaProximoPasso}
-      />
-  )
+  function irParaProximoPasso() {
+    const proximoId = idProximaPergunta()
+    proximoId ? irParaProximaQuestao(proximoId) : finalizar()
+  }
+
+  function irParaProximaQuestao(proximoId: number) {
+    carregarQuestao(proximoId)
+  }
+
+  function finalizar() {
+    router.push({
+      pathname: "/resultado",
+      query: {
+        total: idsDasQuestoes.length,
+        certas: respostasCertas
+      }
+    })
+  }
+
+  return questao ? (
+    <Questionario 
+      questao={questao}
+      ultima={idProximaPergunta() === undefined}
+      questaoRespondida={questaoRespondida}
+      irParaProximoPasso={irParaProximoPasso}/>
+    ) 
+      : false
+  
 }

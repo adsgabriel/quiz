@@ -8,6 +8,8 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": false,
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
