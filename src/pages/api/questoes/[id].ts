@@ -3,7 +3,7 @@ import type { NextApiResponse } from 'next'
 import questoes from '../bancoDeQuestoes'
 
 
-export default (req: any, res: NextApiResponse) =>  {
+export default function questoesProId (req: any, res: NextApiResponse) {
   const idSelecionado = +req.query.id
 
   const unicaQuestaoOuNada = questoes.filter(questao => questao.id === idSelecionado)
